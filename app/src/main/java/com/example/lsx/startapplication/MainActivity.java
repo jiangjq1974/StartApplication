@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -28,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
                         new RequestCallBack<String>() {
                             @Override
                             public void onLoading(long total, long current, boolean isUploading) {
-                                Log.d(TAG, "onLoading: ");
+
                             }
 
                             @Override
                             public void onSuccess(ResponseInfo<String> responseInfo) {
                                 Log.d(TAG, responseInfo.result);
-//                                textView.setText(responseInfo.result);
+                                Toast.makeText(MainActivity.this, responseInfo.result
+                                        , Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
