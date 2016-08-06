@@ -15,12 +15,16 @@ import com.lidroid.xutils.http.client.HttpRequest;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private Button main_activity_php_button;
+    private Button main_activity_nodejs_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button xutilbutton = (Button) findViewById(R.id.main_activity_xutil_button);
-        xutilbutton.setOnClickListener(new View.OnClickListener() {
+        main_activity_php_button = (Button) findViewById(R.id.main_activity_xutil_php_button);
+        main_activity_nodejs_button = (Button) findViewById(R.id.main_activity_xutil_nodejs_button);
+        main_activity_php_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 HttpUtils http = new HttpUtils();
@@ -35,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(ResponseInfo<String> responseInfo) {
                                 Log.d(TAG, responseInfo.result);
-                                Toast.makeText(MainActivity.this, responseInfo.result
-                                        , Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(MainActivity.this, responseInfo.result
+//                                        , Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -48,6 +52,37 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "onFailure: ");
                             }
                         });
+            }
+        });
+        main_activity_nodejs_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HttpUtils http = new HttpUtils();
+                http.send(HttpRequest.HttpMethod.GET, "http://192.3.19.27:8080/?ac=1002",
+                        new RequestCallBack<String>() {
+                            @Override
+                            public void onLoading(long total, long current, boolean isUploading) {
+                                super.onLoading(total, current, isUploading);
+                            }
+
+                            @Override
+                            public void onSuccess(ResponseInfo<String> responseInfo) {
+                                Log.d(TAG, "onSuccess: "+responseInfo.result);
+//                                Toast.makeText(MainActivity.this,responseInfo.result,Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                            }
+
+                            @Override
+                            public void onFailure(HttpException e, String s) {
+                                Log.d(TAG, "onFailure: ");
+//                                Toast.makeText(MainActivity.this, "onFailuer:", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                );
             }
         });
     }
