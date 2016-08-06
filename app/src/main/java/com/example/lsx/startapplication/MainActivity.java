@@ -13,7 +13,7 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     private Button main_activity_php_button;
     private Button main_activity_nodejs_button;
@@ -24,10 +24,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         main_activity_php_button = (Button) findViewById(R.id.main_activity_xutil_php_button);
         main_activity_nodejs_button = (Button) findViewById(R.id.main_activity_xutil_nodejs_button);
-        main_activity_php_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HttpUtils http = new HttpUtils();
+        main_activity_php_button.setOnClickListener(this);
+        main_activity_nodejs_button.setOnClickListener(this);
+    }
+
+    public void onClick(View v)
+    {
+        HttpUtils http = new HttpUtils();
+        switch (v.getId())
+        {
+            case R.id.main_activity_xutil_php_button:
                 http.send(HttpRequest.HttpMethod.GET,
                         "http://tapi.test.tuoguibao.com/basicapi.php?ac=1002&mobile=18562172800&password=123456",
                         new RequestCallBack<String>() {
@@ -52,12 +58,9 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "onFailure: ");
                             }
                         });
-            }
-        });
-        main_activity_nodejs_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HttpUtils http = new HttpUtils();
+                break;
+            case R.id.main_activity_xutil_nodejs_button:
+                //服务器地址应使用IP地址
                 http.send(HttpRequest.HttpMethod.GET, "http://192.3.19.27:8080/?ac=1002",
                         new RequestCallBack<String>() {
                             @Override
@@ -83,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                 );
-            }
-        });
+        }
     }
 }
